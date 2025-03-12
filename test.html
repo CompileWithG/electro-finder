@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electro Finder</title>
+
+    <style>
+        /* Import Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(45deg, #0A0F33, #1E3A5F, #000080, #8B0000);
+            background-size: 400% 400%;
+            animation: gradientAnimation 10s ease infinite;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            overflow-y: auto;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Navbar */
+        .navbar {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 50px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .buttons a,
+        .top-right-buttons a {
+            text-decoration: none;
+            background: black;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            transition: 0.3s ease-in-out;
+            font-weight: 600;
+        }
+
+        .buttons a:hover,
+        .top-right-buttons a:hover {
+            background: white;
+            color: black;
+            transform: scale(1.1);
+        }
+
+        /* Cart and Contact Buttons */
+        .top-right-buttons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cart-icon {
+            font-size: 24px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            border-radius: 25px;
+            background: black;
+            color: white;
+            transition: 0.3s ease-in-out;
+            font-weight: bold;
+        }
+
+        .cart-icon:hover {
+            background: white;
+            color: black;
+            transform: scale(1.1);
+        }
+
+        /* Center Content */
+        .center-content {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 80%;
+        }
+
+        .text-container {
+            text-align: left;
+            color: white;
+        }
+
+        .logo {
+            font-size: 45px;
+            font-weight: 700;
+        }
+
+        .subtext {
+            font-size: 22px;
+            margin-top: 8px;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar input {
+            padding: 14px 25px;
+            border-radius: 25px;
+            border: none;
+            outline: none;
+            width: 400px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .search-bar input:focus {
+            transform: scale(1.05);
+        }
+
+        .search-bar button {
+            padding: 14px 20px;
+            border: none;
+            background: black;
+            color: white;
+            border-radius: 25px;
+            font-size: 16px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .search-bar button:hover {
+            background: white;
+            color: black;
+        }
+
+        /* Info Section */
+        .info-section {
+            margin-top: 400px;
+            width: 80%;
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .info-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            width: 100%;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <div class="buttons">
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign Up</a>
+            <a href="about.html">About Us</a>
+            <a href="shop.html" class="shop-now">Shop Now</a>
+        </div>
+        <div class="top-right-buttons">
+            <a href="contact.html">Contact Us</a>
+            <a href="cart.html" class="cart-icon">🛒</a>
+        </div>
+    </div>
+
+    <div class="center-content">
+        <div class="text-container">
+            <div class="logo">Electro Finder | Smart Choice Matcher</div>
+            <p class="subtext">Here you can shop electronic devices easily</p>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search Electronic Devices">
+            <button onclick="window.location.href='search.html'">Search</button>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div class="info-section">
+        <div class="info-box">
+            <h2>What is Electro Finder?</h2>
+            <p>Electro Finder is a powerful tool designed to make your search for electronic devices seamless and
+                hassle-free.
+                Whether you're looking for a new smartphone, refrigerator, washing machine, laptop, or any other
+                electronic appliance,
+                we provide a one-stop platform to compare and find the best options.</p>
+        </div>
+
+        <div class="info-box">
+            <h2>How Does It Work?</h2>
+            <p>Simply type the name of the electronic device you're looking for in the search bar, specify your budget,
+                and our system will fetch a list of available products from across India.
+                You can apply various filters and quickly find the best deal that suits your needs.</p>
+        </div>
+    </div>

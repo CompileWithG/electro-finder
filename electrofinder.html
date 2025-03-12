@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electro Finder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: yellow;
+        }
+
+        h1 {
+            font-family: 'Baloo', sans-serif;
+            font-size: 3rem;
+            margin: 0;
+            background: linear-gradient(45deg, red, white);
+        }
+
+        /* Search bar and buttons on the right side */
+        .right-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar {
+            padding: 10px;
+            font-size: 1rem;
+            width: 250px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .search-button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .search-button:hover {
+            background-color: white;
+            color: #4CAF50;
+        }
+
+        .profile-button,
+        .login-button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .profile-button:hover,
+        .login-button:hover {
+            background-color: white;
+            color: #4CAF50;
+        }
+
+        /* Laptop, Mobile and Headphone Section */
+        .product-section {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .product-item {
+            width: 23%;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .product-item:hover {
+            transform: scale(1.05);
+            /* Enlarge the image slightly on hover */
+        }
+
+        .product-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            /* Ensure the image fills the container without distorting */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Electro Finder</h1>
+        <div class="right-section">
+            <input type="text" class="search-bar" placeholder="Search for products..." />
+            <button class="search-button">Search</button>
+            <button class="profile-button">Profile</button>
+            <button class="login-button">Login</button>
+        </div>
+    </div>
+
+    <!-- Laptops Section -->
+    <div class="product-section">
+        <!-- Samsung Laptop -->
+        <div class="product-item">
+            <a href="https://www.samsung.com" target="_blank">
+                <img src="https://images.samsung.com/is/image/samsung/p6pim/in/np960qgk-lg1in/gallery/in-galaxy-book-np960qgk-lg1in-front-gray-thumb-541800259?$216_216_PNG$"
+                    alt="Samsung Laptop" />
+            </a>
+        </div>
+        <!-- MacBook -->
+        <div class="product-item">
+            <a href="https://www.apple.com/macbook" target="_blank">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMzTx4EXGAsLKYXCkQwrf8pMyUXGWPArDXfQ&s"
+                    alt="MacBook" />
+            </a>
+        </div>
+        <!-- Asus Laptop -->
+        <div class="product-item">
+            <a href="https://www.asus.com" target="_blank">
+                <img src="https://press.asus.com/assets/w_4992,h_4000/7faf3b23-abec-49ff-8abc-60110fcf8770/ASUS%20Announces%20Complete%20Portfolio%20of%20AI-Powered%20Copilot+%20PCs%20at%20Computex_1.jpg"
+                    alt="Asus Laptop" />
+            </a>
+        </div>
+        <!-- Dell Laptop -->
+        <div class="product-item">
+            <a href="https://www.dell.com" target="_blank">
+                <img src="https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/inspiron-notebooks/15-3535-amd/media-gallery/black/notebook-inspiron-15-3535-nt-plastic-black-gallery-5.psd?fmt=pjpg&psca=auto&scl=1&wid=4582&hei=2810&qlt=100,1&resMode=sharp2&size=4582,2810&chrss=full&imwidth=5000"
+                    alt="Dell Laptop" />
+            </a>
+        </div>
+    </div>
+
+    <!-- Mobile Section -->
+    <div class="product-section">
+        <!-- Samsung Mobile -->
+        <div class="product-item">
+            <a href="https://www.samsung.com" target="_blank">
+                <img src="https://www.samsung.com/etc/designs/smg/global/imgs/support/cont/galaxy-s21-fe.jpg"
+                    alt="Samsung Mobile" />
+            </a>
+        </div>
+        <!-- iPhone -->
+        <div class="product-item">
+            <a href="https://www.apple.com/iphone" target="_blank">
+                <img src="https://www.apple.com/v/iphone/home/ai/images/overview/hero/iphone_14_purple__ct9g8ppb8gya_large.jpg"
+                    alt="iPhone" />
+            </a>
+        </div>
+        <!-- OnePlus Mobile -->
+        <div class="product-item">
+            <a href="https://www.oneplus.com" target="_blank">
+                <img src="https://image.cnbcfm.com/api/v1/image/106830027-1568317854042r1_iphone.jpg"
+                    alt="OnePlus Mobile" />
+            </a>
+        </div>
+        <!-- Google Pixel -->
+        <div class="product-item">
+            <a href="https://store.google.com" target="_blank">
+                <img src="https://store.google.com/intl/en-us/product/pixel_7" alt="Google Pixel" />
+            </a>
+        </div>
+    </div>
+
+    <!-- Headphones Section -->
+    <div class="product-section">
+        <!-- Sony Headphones -->
+        <div class="product-item">
+            <a href="https://www.sony.com" target="_blank">
+                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUQEhIVFRUVFhUVFRcVFxUVGBgVFRUXFxUVFhUYHSggGBolGxUWITEhJSkrLi4uGB8zODMtNygtLisBCgoKDg0OGxAQGy0lICUtLS0tLTYtLS8vKy8tLS0tLS0vLS0tLS0rLSstLS0tKy0tLS0tLS0tLS0tLSstLS0rLf/AABEIASQArQMBIgACEQEDEQH/xAAcAAABBQEBAQAAAAAAAAAAAAAAAwQFBgcCAQj/xABHEAABAwEEBgcFBgMGBQUAAAABAAIDEQQSITEFBkFRYXEHEyIygZGhUnKxwfAjQmKCktEUM0Mkc6KywvFTY7Ph4hWDk6PS/8QAGgEAAgMBAQAAAAAAAAAAAAAAAAQCAwUBBv/EADARAAICAQMCBAUCBwEAAAAAAAABAgMRBBIhMUEFIjJRE2FxgbHR8SMzQpGhwfAU/9oADAMBAAIRAxEAPwDcUIQgAQhCABCEIAEIQgAQhCABJWm0tjaXPIAH1QbykdJ6QjgjMkhoB4VWQ6263Olcb2X3Y+G944+z5+yKrLNvC6jWn00rXnsW7TOu5xEAoPaNPjj6A5YkKsS6yvcamWvMuqPG/j6KgWzSMkhq5x5BMy470s8y6s1YV11rEUa/orWaQEBshrufi13IEmngaqzWXXFlbsrbp4HDmN4WCWPST4zQ9pu0H5K6WS0/xUJaDWRovRuObqZtJ37DvqDsJUd04dGEtPVb1X6mw2XS0MndePHBPQar57s2mntOZFFP6O1ylZ98qyOpa9SF7PC3/QzZkKg6P1+rg8A+itOitPQz9lrqO9k5nlvV8LoS4EbdJbXzJcEqhCFaLAhCEACEIQAIQhAAhCEACStU7Y2l7jQAVJSqyzpL1pDibNGQWspfp95xrRp/Dv4YY3sIWT2ov09LtntIXXTWx076g9kfy27ANjzv3jz9m7RpHEmpxqlJXlxJJqTiSuA1JZ7s3lBRW2PQSuoEacNYl44kZJbBCCw3lO6Ms7oe2w1oQ6nHLyIwPNJWZlFpWqmpl5nW2kEBw7MeRoR3n7juHnuRFObwiNsoUx3TMu1miDJ77e5K0St/Nn64+KjGzKe1pshZEGu79nnlgdyPbB5YCirIKhgYg8pMfx2sjan9l0s9hBa4gg1BBoQRkQVBBy6D1zBI+hNRdZRbYKup1sdGyDfXuvA3Gh8QVZV896gadNltsTyaMkPVSbrryAHeDrpruB3r6ET9M90eTzmtoVVnHR8oEIQrRMEIQgAQhCABCF45wAJOAGJ5BAFe1206LLAQ0jrZKtYKivF1M6DadiwW3zX3E18dpqalx5kkqx696ddap3PaeziyMbOrGBP5jjyAVWqk5y3PJuaar4cMd2cjilGNXrWpVkSraHIs9YxOYmJNkZ3+atWoOgDarQC9odDH2pKggGoNxla7XY8mneoqLbwicrI1xcpdiw9Hmqt6lsnb2c4WnaR/UI3bvPctJXjWgCgwAyXqfhBQWEeb1F8rp7pfsY10oR3ZrUHH+Z/DyMrwo13oHeAWcFhH1h5rXelSz/bF+PascjaYUrHIHA86ErJw2mWCTtWJs39C91KEV6lfAH0+C8ujiPVVjeBI44L6V1Q0l/E2Kzzk1c+Nt/329l/+IFfN3V7seX7Zra+hi1XrC6M/0pnt8HBsnxe5X6d+bBmeKQzUpez/ACX5CEJwwQQhCABCEIAFUOknTPUWfqmmj5qiozbGMXu4YYA7yFbysI1/0z/EWl7geyD1bPcYcTwq+v6QqrZYWBrSVb7MvoisyvvEnLhuGwLkNQEqxqVNtI7jsrqXgDSldmW+h2cl2AeHw/dOhajdu0FaUr4Uy30+aRARLHYnBPuKWWFz3NY1tXOcGtA2lxoAt31a0K2yQNhbQnvPd7TzmeWwcAFReizQl97rY8YR1ZHXa8jtO8AafmO5aemKYcbjJ8RvzL4a6Lr9QQhCvM0zvpXb/KO+C1jyjaVkpjWvdK39Ef8AKtfrG0LLDGs/Ues9L4X/ACBkY1yY09Ma5MapyaGBkY1qPQrbLrbVG44AwvHNwkaf8gWcmNWvUGbqzPxEXp1n7q2qWJoU11e6iS+n5RtyEIWieVBCEIAEIQgCA130obPZJHNNHv8As2e8/CvICp8FgUz6uwyyHIYBaH0t6WvTNgBwibU/3klR5hgP6gs5CUseZG1o69tefc9aE4jCRYE4YFWPI7CcWSzuke2Ngq57g1o3lxoPikAr10WaJ6yd1pcOzCKN/vHino2v6giMdzwctsVVbm+xpOhdHNs0EcDMmNArvdm5x4kknxT1CE+uDzLbbywQhCDhnfSk77SFu6Kc/qdE35rPDGr30mPraWt3Wcf45wfhGVTixZuofnPT+GLFCGZjXJjTwsXJYqTQGZjU5qtHjJ+T/Wo4xqzaj2W+ZuHV+t9WVepC2reKW/p+TXEIQtQ8iCEIQALieUNaXnJoJPICpXarHSLbuqsT2g0dKREN9HHtkcmglRk8LJOuG+Sj7mL6ft5nmfKc5HOkP5u6PBgaFHtRLJecXbz6bF01JnoUscCkYS7Qk2BKhRLUdBbnqXov+GskbCKPcOsfvvvxoeQo38qyXVDRv8Ra4oiKtvX3+4ztEHnQDxW7K+iPVmZ4nb0rX1BCEJkyQQhCAMo16kvW6Yey2Bnkx7z/ANRqr5apLTMvWWm0P3zy05NuxD/pHzTK6sq55mz1uihtoihEtXhalrq8uqsaEC1Xzovs4ItDjviHlfPzCpJatG6NIqWeR3tSnyaxvzJV+nWbEIeJvGnf2LehCFpHlwQhCABZX0waRPWRwDJkbnng95DG/wCG+tUWCdIVv621SGuF8gcmC6Pmqbnxgd0MMzcvZFYalmJFqT/9Qjbm6nMEfJL4Nbcl1JJiUCQs87XirXA8ku1RZdHk0roj0f8AzrSRuib6Pf8A6PJaMoPUqwdRYoWEUJbfd70naIPKoHgpxO1xxFI89qrPiWykCEIUxcElapgxjpDk1rnHk0VPwSqgdeZi2xTNBo6QCJp4ykMPoSfBcbwskoR3SUfcyuy1LQTmRePN/wBofV5StF00CmGWzkvaLHk8vJ7SuO2KQndXcDe1W9dpjUitPDavaJWzxVrUCgzJJAHHDauI7LoIWhrK9itMcxlwC07UeC7Y4/xF7vN5p6ALM5g2pu1u7K5+K1/RNn6uCKP2Y2A8w0V9U3pV5mzI8XliqMfd/j9x2hCE+efBCEIAbaTtIjikkP3WOd5DBfN2lpi6Q12Z8zifUrd9f5XtsUgY0uc8tZuADnCpcdjQAar55ke5xLi7Mk4Dfzql7eZGpouK2/d/g7l7pG+jf1GnzSz4GvBa4Ag4FNgz8R3/AHf2TiKvteY/aiqY6ueqE3aNY3tMq1wypvyAO8Kw6GsXXTxQ/wDEe1p90ntHyqVDukyBFMRjmMMRjsxAV56LrH1ltDyMImPf4mjB/nPkjG5pM7KSrhKS9jYgNi9QhOnnQQhCABUnpKtOEMI2udIeF0XG/wCKT0V2WX65WrrLY+mUYbGPAXnesg/SqdRLEGPeH17718uSHQvULKPVHlEvA3Cl8AnJpFQd1TkPrekUsaAVuuvDDZdqMQTxps4KSIzPdFwdbNGzY+RtfdLqnDgKrYFm+otlvWoOphGxzvEi4P8AMfJaQn9IvK37nnvF55tUfZfkEIQmjKBCEIApnSfablnw9mV3iG0Hq5YNVaz02aXZGxkFS6WWgaxovOuh15zroxoS1reOO4rJhYbS7HquqbvlND4NGKVl6m2a2nl/DjFcs9D0tFIiDRJ+9IXe6A0etSpODRQ3epKrlKKHYVTfYaMetW6GrKAy0S73MYOAaC7A/n9As7GjRuV21I1njsTDBJE6655eXtIJBIa3Fp2UaMj4IrnHdyR1VFjqaismqoTWwaQinaHxSNe07jiK7CMweBTpPHn2mnhghCZ23SkEP82VjPecAfLNDeASbeEOLTMGMc85NBJ8BVYtPandZIZb1TI83w03SHOLqktFG0vXcad1X3T2tVnlheyCS+RS9QOApnQEihJIAw3qiMPnt57SkNVYm9pveFaeUU5tYZ7FK1wq1wcN7SCPMLtIyWdjjVzQT7VKOHJwxHgVz/Dkd2Rw4O+0Hr2j+pKcGx5l2HTMxXeF3M7AAGrRgONMS4jYST5BMuskGbA73HUP6X0A/UV0y0gkNo4OJAAc1wqTkGmlHHkSurJF7W8s0Do9stI5JT95waOTB+7j5K2qP0DY+ps8cZFCGgu953ad6kqQWrVHbBI8lqrPiXSl8wQheEqwXPVWtM6ztbVsRGFQZDiKjAiMfeIyJPZB9oggMNbNYKk2eNxAArM4GhunARg7HOocRiADkSFn+ktIF2AwAwAGAAGQA2BLWXdomlpdFv8ANPoO9JaZawvexo6x/ekPakcdl55xPAZDIABVl0j5XXnElJTyFxUhY4w0VKWkzZrgui6HccAYKlDrWBtDeeJ8h+6htOaa6s3Ri8j9IPz+udYk0k8mrrylCpy5K7tZCp7UXmTSIH3x4t/8k5itNRU0I9puI8RmOdKcVnQ0heOfgpnQ9pkdI1kVXPOQHxrsHFdlThEK9cpywXGy2gscJYpCxwycw0PmMxwKvWitfZBERaIr0g7rmkND/fH3TyGO4KoWLRQiF+Sl84mmDRyGRPFLMa6Q0jbXich9YcxlVVxslH0jFunptWbUP9La12ueo6zqmezH2fN3ePn4KAgswldQXnn7x2D3nH/dPpYYmfzH9Y72W5DgeXhyXjre4i6wBg4Z+exQlNvqyyuqKWK44QraGMjaIWbDeed7tg+tw4pJqSY1LNaqm8jUIKKwdBeoovVwlg5KktXLN1tpiZsvBx5M7R+FPFRpVj6P6fxRr/wn053mfKqsqWZpC2rk4UTkvY0ZCELYPGAoDW3TTbPE5xPdaSaYnLAAbTw24b1OSyBrS45AEnwWTa66QMszIzkCZn/lIuN/WWn/ANoqi6eFga0lPxJZfYhrXaXBtHHtuJfJTHtuzFdoAo0cGhQ9okS1plqUwnelTe6LB7ZxU+ieW+0dXGXbhh7xy/fwSFkGSQ0yalrfE/L4lcSzInKWyttECYC4lzsScSuZbJgpVsSUjsjnuDGirnGgH1s+uCY3YMr4eSvWbQUlokEUTaud5AbXOOwD63LS9FaMg0dFcab8pHbec3HcNzeHmu4WR2CK63tTP7xGZO4cBsCGAWcCe0dud2LIzk0bHO+tm/u1WWOXHYco08aXuxmQ66rs9danXW/dYO87kPn8KBxY23TDni4wdXHsa3M+8dv1mou1218ri97qk+QG4DYE0baS43YxeIwLj3G8Cdp4DxoqcZG4pJ5lyySa8AVOAHgF3DbA7+Wx0nFoAb+txDT4EpCzWFuDpD1jvxd0H8LMhzNTxUuxyreBtbn8hGMTn7sbRxe5x8g0D1Swjm9uL/43/HrEs1y7DlzIP6jcmYfdicODnMPgC0j1XJtzRhI10VfbAu13dY0lleFap3eXhP1+65wCb7M4cl9F290ErJm43TiN7Tg4eSi32cx4w5bYiaNPuH+meHdO4ZruK0B4vDkQcCCM2uGwjcurjlHXiacJLqbZYrWyVjZYzVrhUH5HcRlRLrMtSdOGCUQvP2cpp7rzgHcjkfA7Fpq1arFZHJ5DWaV6eza+nYgtbtIiGINzdI6jW7XEY0HpU7BU7FjtttBdJK8kE3urqN0dQ7/7DIfFaPrvbgJQDT7JhNdvaoXY8mtWSxSG42uZF53vO7R9SlrJbps0tHVsrTffk6e5M5TU/W3BLSPTUn5fEKKGmyTsyaW3F9dydQZprah2qrkfUduf8M5Cs2jLO2zRGZ4+0cMB7IOTeZ2qN1esoe7rHd1mPAu2fv5J5LpNnXF78RG0Paz2nOJEVeHZc48GjO9REnl4I1RUY739hZz+o/tMwvTvFYmHJg9tw2cvptftVrLi573VJxcT9YD4Ly3W10jnSPdUnEk5f9gAowHrDePcGLQfvbnOG7cPE8OJEt2Pqxw1xk3tZ5Of/wDlvqeCkIHBoAAAAyAwATEPXQkXJLJZB7eSXZaAlm2pQgkXQlUHAYVpOttSUbaVBNnSrLQo7SxSyTrZ0oJVCx2hOY51HB1Iki5R9t+zPXjLASjewYCTm3f7NdwSrZUOcDgcQcCN42hC4JOOUeuK2PVm39fZYpTi4to73mm64+JFfFYbo95uXTWrC5lTiSGEhpJ3loB8Vq3RjLWzPb7MppyLGH41TWle2bRk+LRU6FP2f5KXr9pCrrWa5CRo8G3fkqbK6mG4BSOt9ovPtLd7pR6lREjq47wCuLudjwkvZI8cUi4/XqunFJuKkcZIwvyK9mcBeqNgomlmfhd3Zcv9k9hYHObXIG8eTe0fgudHkl647SUc4Qwti20vyeOz62DiqtpSNzndcxxEg35OG4/XKik7faS4mu01PPYPAU+goyRyjHOckppNY/sNxI6Sl5t1ozHtO3e6PXwxcByRL0tA2qmymPAq0JzZrG55o0eOweKdWCw3sTl8eAU3GA0UAoFTKeOg5VS5csZWbQrBi8lx3DAfupKKzRt7rGjwBPmcV4HLoOVTbY0oJdBYPO9cvaHd5rXcwD8VyHL0FcO4Gs+jI3ZAsO9uI/SfkQo20WV8WeI2OGX/AGPAqdqggEUIqDgQdq7k4QLJUqJUlb7N1bsO6cj8QeKREi6WoLK7tzf3g9Yo1rfRdHSyvd7Uzqcgxg+IKx2yP77t73H9NGf6FvuqWjzBZIYiKOu3nj8TzecPAmngm9PHz59jE8UsS06j7v8Axy/0MJ1vYWWy0xnZNJ5OcSPQhRFmdWNvAXTzb2T8Fc+mPRxitwmA7NojDvzx0Y8eVw+KpFid2nM39ocxg4fA+a7KOG0VU2blF/IWK4cF2QvKKJexNrqY7vgn9kl7LjuoPPH4geaZOYlrMKM5uJ8gB8z5Il0OQ9WDyVyaSuTiQpnMVyJO1id5Sui4rx4DNQl7FWTRzbrBvOJ8V2zhEdNHdLkl2PpgEoJEwEiUEiVwaikPg9dhyZNkSjZFzBLI8D10HJq2Rdh6AHQcvQU3D12HLgYONJRXo3DaBeHMfVPFVeWe60nbs4k4AedFbaqkxtdJI1jQXGoDQMS6R2DWjfn5kblOCyQnLbEt/RzoP+JtLGHGOENkkO+ndafecPIOW6qv6k6vCw2ZsZoZHduVw2vI7oPstGA5V2qwLTphtjz1PKa7UfGs8vRcIqPSfq+bXYnXBWWE9bGBmaDts8W1w3gL59rk5uYxb9bjiPFfWCwnpP1TNknNojb/AGedxOGUcpxczg04keI2Llse5LSWf0P7FXY4PaHjbmNxGYPJe3UzieYzeAqD32jb+IfiHqPBSLaEBzTUHIhLM1oPcueokWrtow+t5Xd1ehuYUX0LILzDKUJlOpGVqZTtXYshaiPHeA4hWdr1V5cCDuKsDX1xXbOxzSvGR2HrsPTQPXYeqcDqkOxIlGyJkHrsPXME1IfNkSrZEwD0o2RRwTUh+2RKNemDZEq2RcwSTHU891jnbgT5BWXok1OuBtvnbiR/Z2nMA5zHi6uHAk7RRLU3VkWx3WTCsDHCrTlI4Y3D+EYE78BvWrAJzTVcbmYnimsX8qH3f+v1PUIQnTBBNdJ6PjtET4Jmh7HijgfQg7CDQg7CE6QgE8HzzrdqrLo+W4+roXE9TLsO24/c8DzzG0CDY1zDeZiD3mHAHiD913odu9fTOkLDFPG6GZjXscKOa7I/sdxGIWRa09Hs9lJlswdPBndGMsY3U/qN4jHhhVK2Vtco1tNqoy8s+H7lRgla/unEd5pwc3mPnkuy1EdlZLQjMZOaS1zeFcxyK9tBdD33NfUYYXX12VAwPPDkl8p8Gmsrl/3EZY0xnjTixWu8bjxR2JbuI3DiNyWliXPSybSnHKIC0RJ3o6arbpzb8NiWns6ZmMtNRmFZnKwLbXCWSRqvQUjDOHcDu/ZKqtoZTz0Ow5dh6RXtUYJZHAeuw9NQ5dB65gkpDxr1M6s6FltkojZg0UMj9jG/Nx2D5VT7VfUK0Wkh8wMEOdXCkjh+Bhy5u8itc0VoyKzRiGFga0eZO1zjmTxV1dDly+ghqvEY1rbDmX4O9HWFkEbYYxRrBQfMneScapyhCeXB59tt5YIQhBwEIQgAQhUrXnXYWatms9H2h2G8R12u3u4eJ4xlJRWWWVVSsltiiG6UpLBGcIgbY6hvRksIG+W73q7AceSzZ9ne435Mz9eClobMbxlkcXyOJLnE1NTnj81YtXtU5LYbxqyKuLyMTvDBtPHIeiz3N2T8qPS16eOmpzZL/v8AuxWrLoN0wLWRPkoKnq2ucW7iLuIKcjV61YBtntDjtLoJG+Pdotu0VouKzRiKFoa0eZO9x2lPUwtNxyzOn4tiXkgsHzfPZyCWuBa4YEEEEHcQcQmktmX0XpTQtntIpNE1+wEijhyeKOHgVVbd0Y2d2MUskfA0kaPOh9VB6eS6cl0PEqZrzrH+TE5LMvAXDjzWqzdFcv3bTGebHN+BKSb0TzHO0Rjk1x+YXPh2exZ/6tN1U/z+hmIlO5ddbwK1qx9EsQ/m2l7v7tjWerrys+idSLBZyHMs7XOGN6SshrvF6ob4AKSokyqfiFUemWY3q/qrbLYQYYSGH+rJVkdN4NKv/KCtY1T1Cs9jpI/7aYffcKNaf+WzZzNTxGStwQr4UxiZ9+ust4XCBCEK0SBCEIAEIQgAQhVLW/XJlmrDDR8+3a2Pi7e78PnxjKaisstqpnbLbBZY5121iZZYHsa49e9jhE1tLwJBAea5AHadyyTR8baXgS97j2icXFxzB21qpfQmhbRpCVzi4kVrLM/Gh3De6mTRlhkFqeidXrNZ2tbHE2rTW+4AvLiKFxdTPklHGV/PRGzGyrw/y+qXf5FV1Z1KLqS2oUGbYtp4ybh+Hz3K+sYGgNAAAwAGAAGwBdITNdcYLCMnU6qzUS3Tf27IEIQrBcEIQgAQhCABCEIAEIQgAQhCABCEIAEIQgCrdIel5bNZ2mF10yPuF20Agklu44ZrNNA2Ns9piieTde+
+                jiDjtJxO0714hIX82pP5HodAlHSSkuvPJt1jsjImCONoaxooAPrE8UuhCfPPttvLBCEIOAhCEACEIQAIQhAAhCEACEIQAIQhAAhCEACEIQB//2Q=="
+                    alt="Sony Headphones" />
+            </a>
+        </div>
+        <!-- Bose Headphones -->
+        <div class="product-item">
+            <a href="https://www.bose.com" target="_blank">
+                <img src="https://www.bose.com/images/headphones.jpg" alt="Bose Headphones" />
+            </a>
+        </div>
+        <!-- Sennheiser Headphones -->
+        <div class="product-item">
+            <a href="https://www.sennheiser.com" target="_blank">
+                <img src="https://www.sennheiser.com/images/headphones.jpg" alt="Sennheiser Headphones" />
+            </a>
+        </div>
+        <!-- JBL Headphones -->
+        <div class="product-item">
+            <a href="https://www.jbl.com" target="_blank">
+                <img src="data:image/jpeg;base64,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
+                rANAB6KpEQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQf/9k="
+                    alt="JBL Headphones" />
+            </a>
+        </div>
+    </div>
+
+</body>
+
+</html>
