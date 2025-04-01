@@ -32,26 +32,37 @@ export default {
         }
 
         const handleSubmit = async () => {
-            errorMessage.value = ''
+    errorMessage.value = ''
 
-            if (!validateForm()) return
+    if (!validateForm()) return
 
-            isSubmitting.value = true
+    isSubmitting.value = true
 
-            // Simulate API call
-            setTimeout(() => {
-                isSubmitting.value = false
-                showSuccess.value = true
+    // Retrieve the stored user details from localStorage
+    const storedUser = JSON.parse(localStorage.getItem('user'))
 
-                // Update auth state
-                authStore.login()
+    // Check if the stored user details match the form values
+    if (!storedUser || storedUser.email !== form.value.email || storedUser.password !== form.value.password) {
+        errorMessage.value = 'Invalid email or password'
+        isSubmitting.value = false
+        return
+    }
 
-                // Redirect after success animation
-                setTimeout(() => {
-                    router.push('/')
-                }, 1500)
-            }, 2000)
-        }
+    // Simulate API call (optional)
+    setTimeout(() => {
+        isSubmitting.value = false
+        showSuccess.value = true
+
+        // Update auth state
+        authStore.login()
+
+        // Redirect after success animation
+        setTimeout(() => {
+            router.push('/')
+        }, 1500)
+    }, 2000)
+}
+
 
         // Animation functions
         const animateInput = (input) => {
@@ -143,7 +154,6 @@ export default {
         </div>
     </div>
 </template>
-
 <style scoped>
 .login-container {
     min-height: 100vh;
@@ -191,9 +201,24 @@ export default {
     margin-bottom: 2rem;
 }
 
+.input-group.active label {
+    transform: translateY(-24px) scale(0.8);
+    color: #667eea;
+}
+
+.input-group label {
+    position: absolute;
+    left: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #a0aec0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
 .input-icon {
     position: absolute;
-    right: 15px;
+    left: 15px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 1.2rem;
@@ -206,12 +231,27 @@ input {
     border-radius: 10px;
     font-size: 1.1rem;
     padding-left: 3rem;
+    transition: all 0.3s ease;
 }
 
 input:focus {
     border-color: #667eea;
     outline: none;
     box-shadow: 0 0 8px rgba(102, 126, 234, 0.2);
+}
+
+.focus-border {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #667eea;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus ~ .focus-border {
+    width: 100%;
 }
 
 .form-options {
@@ -243,7 +283,7 @@ input:focus {
     transition: all 0.2s ease;
 }
 
-.remember-me input:checked~.checkmark {
+.remember-me input:checked ~ .checkmark {
     background: #667eea;
     border-color: #667eea;
 }
@@ -253,10 +293,49 @@ input:focus {
     text-decoration: none;
     font-size: 0.95rem;
     transition: opacity 0.2s ease;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 2px;
 }
 
 .forgot-password:hover {
     opacity: 0.8;
+    border-bottom-color: #667eea;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 1.2rem;
+    font-size: 1.2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    border: 2px solid transparent;
+}
+
+.submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.submit-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 10px rgba(102, 126, 234, 0.4);
+}
+
+.submit-btn:disabled {
+    background: linear-gradient(135deg, #a0aec0 0%, #cbd5e0 100%);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 4px 10px rgba(160, 174, 192, 0.3);
 }
 
 .social-login {
@@ -304,6 +383,8 @@ input:focus {
     background: white;
     cursor: pointer;
     transition: all 0.2s ease;
+    font-size: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .social-btn img {
@@ -314,6 +395,7 @@ input:focus {
 .social-btn:hover {
     border-color: #667eea;
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
 }
 
 .signup-link {
@@ -326,17 +408,25 @@ input:focus {
     color: #667eea;
     text-decoration: none;
     font-weight: 500;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 2px;
+    transition: border-color 0.2s ease;
 }
 
-/* Adjust existing styles for larger size */
-.submit-btn {
-    padding: 1.2rem;
-    font-size: 1.2rem;
+.signup-link a:hover {
+    border-bottom-color: #667eea;
 }
 
 .error-message {
-    font-size: 1.1rem;
+    background-color: #fed7d7;
+    color: #c53030;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 1rem;
     margin-top: 1.5rem;
+    border-left: 4px solid #e53e3e;
+    text-align: center;
+    animation: shake 0.5s ease-in-out;
 }
 
 @keyframes formEntrance {
@@ -344,25 +434,25 @@ input:focus {
         opacity: 0;
         transform: translateY(-50px) rotateY(90deg) scale(0.9);
     }
-
     to {
         opacity: 1;
         transform: translateY(0) rotateY(0deg) scale(1);
     }
 }
 
-/* Add media queries for responsiveness */
 @media (max-width: 768px) {
     .form-wrapper {
         padding: 1rem;
     }
-
     .login-form {
         padding: 2rem;
     }
-
     .form-title {
         font-size: 2rem;
+    }
+    .submit-btn {
+        padding: 1rem;
+        font-size: 1.1rem;
     }
 }
 </style>

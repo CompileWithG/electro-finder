@@ -1,12 +1,9 @@
 <template>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-
     <nav class="navbar" v-animateonscroll="{ enterClass: 'animate-slideindown', leaveClass: 'animate-slideoutup' }">
-        <!-- Conditional rendering for profile image/login button -->
         <template v-if="authStore && authStore.isLoggedIn">
-            <img class="nav-circle-image left" src="../assets/person3.jpg" alt="Profile">
+            <router-link to="/profile">
+                <img class="nav-circle-image left" src="../assets/person3.jpg" alt="Profile">
+            </router-link>
             <button class="logout-button" @click="logout">Logout</button>
         </template>
         <router-link v-else to="/Login" class="login-button">
@@ -14,67 +11,28 @@
         </router-link>
 
         <ul class="navbar-links">
-            <li><a href="/">Home</a></li>
-            <li><a href="Product">Products</a></li>
-            <li><a href="About">About</a></li>
-            <li><a href="ai">AI Chat Bot</a></li>
+            <li><router-link to="/">Home</router-link></li>
+            <li><router-link to="/product">Products</router-link></li>
+            <li><router-link to="/about">About</router-link></li>
+            <li><router-link to="/ai">AI Chat Bot</router-link></li>
         </ul>
-        <a href="https://www.amazon.in" target="_blank">
-            <img class="amazon" src="../assets/amazon.png" alt="Amazon">
-        </a>
-        <a href="https://www.cashify.in" target="_blank">
-            <img class="cashify" src="../assets/cashify.png" alt="Cashify">
-        </a>
-        <a href="https://www.flipkart.in" target="_blank">
-            <img class="flipkart" src="../assets/flipkart.png" alt="Flipkart">
-        </a>
+
+        <router-link to="/cart" class="cart-button">
+            <svg xmlns="http://www.w3.org/2000/svg" class="cart-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+        </router-link>
     </nav>
 </template>
 
 <script setup>
 import { useAuthStore } from '~/stores/auth';
-import { computed } from 'vue';
 
-// Access the auth store
 const authStore = useAuthStore();
-
-// Use a computed property to ensure reactivity
-const isLoggedIn = computed(() => authStore.isLoggedIn);
-
-// Logout function
-const logout = () => {
-    authStore.logout();
-};
+const logout = () => authStore.logout();
 </script>
 
 <style>
-.amazon {
-
-    position: absolute;
-    width: 90px;
-    height: 30px;
-    right: 3%;
-
-}
-
-.flipkart {
-    position: absolute;
-    width: 110px;
-    height: 80px;
-    right: 12%;
-    top: 2%;
-    margin-left: 20px;
-}
-
-.cashify {
-    position: absolute;
-    width: 70px;
-    height: 25px;
-    right: 20%;
-    margin-bottom: 20px;
-}
-
-/* Existing navbar styles */
 .navbar {
     position: fixed;
     top: 0;
@@ -84,8 +42,9 @@ const logout = () => {
     padding: 20px 0;
     z-index: 1000;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    padding: 0 30px;
 }
 
 .navbar-links {
@@ -116,10 +75,6 @@ const logout = () => {
 
 /* Login button styles */
 .login-button {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
     padding: 12px 30px;
     background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
     color: white;
@@ -139,39 +94,43 @@ const logout = () => {
     z-index: 1;
 }
 
-.login-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(120deg,
-            transparent,
-            rgba(255, 255, 255, 0.2),
-            transparent);
-    transition: all 0.6s ease;
-}
-
 .login-button:hover {
-    transform: translateY(-50%) scale(1.05);
+    transform: scale(1.05);
     box-shadow: 0 6px 12px rgba(37, 99, 235, 0.3);
 }
 
-.login-button:hover::before {
-    left: 100%;
+/* Cart button styles */
+.cart-button {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    margin-left: auto;
 }
 
-/* Logout button styles */
+.cart-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(243, 156, 18, 0.3);
+}
+
+.cart-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Logout button */
 .logout-button {
-    position: absolute;
-    left: 80px;
-    /* Adjust this value to position the button next to the profile image */
-    top: 50%;
-    transform: translateY(-50%);
     padding: 8px 20px;
     background: #e74c3c;
-    /* Red background for logout button */
     color: white;
     border: none;
     border-radius: 30px;
@@ -183,7 +142,6 @@ const logout = () => {
 
 .logout-button:hover {
     background: #c0392b;
-    /* Darker red on hover */
 }
 
 /* Profile image styles */
@@ -191,39 +149,10 @@ const logout = () => {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.nav-circle-image.left {
-    left: 20px;
-}
-
-.nav-circle-image.right {
-    right: 20px;
+    margin-right: 20px;
 }
 
 /* Animations */
-@keyframes buttonPulse {
-    0% {
-        transform: translateY(-50%) scale(1);
-    }
-
-    50% {
-        transform: translateY(-50%) scale(1.05);
-    }
-
-    100% {
-        transform: translateY(-50%) scale(1);
-    }
-}
-
-.login-button:not(.router-link-active) {
-    animation: buttonPulse 2s infinite;
-}
-
-/* Existing animations */
 .animate-slideindown {
     animation: slideindown 0.5s ease forwards;
 }

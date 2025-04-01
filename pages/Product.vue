@@ -1,6 +1,6 @@
 <template>
   <div class="product-container">
-    <NavBar/>
+    <NavBar />
     <div class="search-container">
       <input 
         type="text" 
@@ -8,7 +8,7 @@
         placeholder="Search products..."
         class="search-input"
         @keyup.enter="performSearch"
-      >
+      />
       <button @click="performSearch" class="search-button">
         <span class="search-icon">🔍</span>
       </button>
@@ -23,7 +23,7 @@
     <div v-else-if="hasSearched" class="product-grid">
       <div 
         v-for="product in filteredProducts" 
-        :key="product.link || index" 
+        :key="product.link" 
         class="product-card"
       >
         <img :src="product.image" :alt="product.name" class="product-image">
@@ -39,7 +39,14 @@
           </div>
           <div class="button-container">
             <a :href="product.link" target="_blank" class="buy-button">Buy Now</a>
-            <button @click="addToCart(product)" class="cart-button">Add to Cart</button>
+
+            <div class="cart-controls">
+              <button v-if="isInCart(product)" @click="decreaseQuantity(product)" class="cart-button">-</button>
+              <span v-if="isInCart(product)" class="cart-quantity">{{ getCartQuantity(product) }}</span>
+              <button @click="addToCart(product)" class="cart-button">
+                {{ isInCart(product) ? "+" : "Add to Cart" }}
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -60,6 +67,7 @@ export default {
     return {
       searchQuery: '',
       products: [],
+      cart: [],
       loading: true,
       hasSearched: false
     }
@@ -70,31 +78,23 @@ export default {
       if (!query) return []
       
       return this.products.filter(product => {
-        // Safe property access with null checks
         const name = product.name ? product.name.toLowerCase() : '';
         const mainCategory = product.main_category ? product.main_category.toLowerCase() : '';
         const subCategory = product.sub_category ? product.sub_category.toLowerCase() : '';
         
-        return name.includes(query) || 
-               mainCategory.includes(query) || 
-               subCategory.includes(query);
+        return name.includes(query) || mainCategory.includes(query) || subCategory.includes(query);
       });
     }
   },
   async mounted() {
     try {
-      const response = await fetch('/products.csv') // Put your CSV in public folder
+      const response = await fetch('/products.csv')
       const csvData = await response.text()
       
       Papa.parse(csvData, {
         header: true,
         complete: (results) => {
-          // Filter out invalid entries
-          this.products = results.data.filter(product => 
-            product && typeof product === 'object' && product.name
-          );
-          
-          console.log('Loaded products:', this.products.length);
+          this.products = results.data.filter(product => product && typeof product === 'object' && product.name);
           this.loading = false;
         },
         error: (error) => {
@@ -102,6 +102,8 @@ export default {
           this.loading = false
         }
       })
+
+      this.loadCart(); // Load cart from localStorage
     } catch (error) {
       console.error('Error loading CSV:', error)
       this.loading = false
@@ -111,14 +113,43 @@ export default {
     performSearch() {
       if (this.searchQuery.trim()) {
         this.hasSearched = true;
-        console.log('Searching for:', this.searchQuery);
-        console.log('Found products:', this.filteredProducts.length);
       }
     },
+    loadCart() {
+      const storedCart = localStorage.getItem('cart');
+      if (storedCart) {
+        this.cart = JSON.parse(storedCart);
+      }
+    },
+    saveCart() {
+      localStorage.setItem('cart', JSON.stringify(this.cart));
+    },
     addToCart(product) {
-      // Implement your cart logic here
-      console.log('Added to cart:', product)
-      alert(`Added ${product.name} to cart!`)
+      const index = this.cart.findIndex(item => item.name === product.name);
+      if (index !== -1) {
+        this.cart[index].quantity += 1;
+      } else {
+        this.cart.push({ ...product, quantity: 1 });
+      }
+      this.saveCart();
+    },
+    decreaseQuantity(product) {
+      const index = this.cart.findIndex(item => item.name === product.name);
+      if (index !== -1) {
+        if (this.cart[index].quantity > 1) {
+          this.cart[index].quantity -= 1;
+        } else {
+          this.cart.splice(index, 1);
+        }
+        this.saveCart();
+      }
+    },
+    isInCart(product) {
+      return this.cart.some(item => item.name === product.name);
+    },
+    getCartQuantity(product) {
+      const item = this.cart.find(item => item.name === product.name);
+      return item ? item.quantity : 0;
     }
   }
 }
@@ -201,10 +232,7 @@ export default {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
-.product-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
+
 
 .product-image {
   width: 100%;
@@ -287,10 +315,7 @@ export default {
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.cart-button:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  transform: scale(1.05);
-}
+
 
 .loading-text {
   text-align: center;
@@ -313,5 +338,41 @@ export default {
 
 .no-results {
   color: #f87171;
+}
+.cart-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  visibility: visible; /* Ensure visibility */
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+
+.cart-quantity {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.cart-button {
+  padding: 12px;
+  text-align: center;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+  text-decoration: none;
+  font-size: 1rem;
+  background-color: #2563eb; /* Match Buy Now button */
+  color: white;
+  border: none;
+  width: 100%; /* Make it match Buy Now width */
+}
+
+.cart-button:hover {
+  background-color: #1d4ed8;
+  transform: scale(1.05);
 }
 </style>

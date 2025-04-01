@@ -51,10 +51,7 @@ export default {
                 // Update auth state
                 authStore.signup()
 
-                // Redirect after success animation
-                setTimeout(() => {
-                    router.push('/')
-                }, 1500)
+                router.push('/');
             }, 2000)
         }
 
@@ -123,7 +120,7 @@ export default {
 
                 <p class="signup-link">
                     Already have an account?
-                    <router-link to="/login">Log in</router-link>
+                    <router-link to="/login" class="login-link">Log in</router-link>
                 </p>
 
                 <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
@@ -179,9 +176,24 @@ export default {
     margin-bottom: 2rem;
 }
 
+.input-group.active label {
+    transform: translateY(-24px) scale(0.8);
+    color: #667eea;
+}
+
+.input-group label {
+    position: absolute;
+    left: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #a0aec0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
 .input-icon {
     position: absolute;
-    right: 15px;
+    left: 15px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 1.2rem;
@@ -194,6 +206,7 @@ input {
     border-radius: 10px;
     font-size: 1.1rem;
     padding-left: 3rem;
+    transition: all 0.3s ease;
 }
 
 input:focus {
@@ -202,14 +215,113 @@ input:focus {
     box-shadow: 0 0 8px rgba(102, 126, 234, 0.2);
 }
 
+.focus-border {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #667eea;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus ~ .focus-border {
+    width: 100%;
+}
+
 .submit-btn {
+    width: 100%;
     padding: 1.2rem;
     font-size: 1.2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    border: 2px solid transparent;
+}
+
+.submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.submit-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 10px rgba(102, 126, 234, 0.4);
+}
+
+.submit-btn:disabled {
+    background: linear-gradient(135deg, #a0aec0 0%, #cbd5e0 100%);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 4px 10px rgba(160, 174, 192, 0.3);
+}
+
+.spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+.success-check {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    color: white;
+    background-color: #48bb78;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: scaleIn 0.5s ease-out;
+}
+
+.signup-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #718096;
+    font-size: 1rem;
+}
+
+.login-link {
+    color: #667eea;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 2px;
+}
+
+.login-link:hover {
+    border-bottom-color: #667eea;
 }
 
 .error-message {
-    font-size: 1.1rem;
+    background-color: #fed7d7;
+    color: #c53030;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 1rem;
     margin-top: 1.5rem;
+    border-left: 4px solid #e53e3e;
+    text-align: center;
+    animation: shake 0.5s ease-in-out;
 }
 
 @keyframes formEntrance {
@@ -224,6 +336,28 @@ input:focus {
     }
 }
 
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: translate(-50%, -50%) scale(0);
+    }
+
+    to {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
 /* Add media queries for responsiveness */
 @media (max-width: 768px) {
     .form-wrapper {
@@ -236,6 +370,11 @@ input:focus {
 
     .form-title {
         font-size: 2rem;
+    }
+    
+    .submit-btn {
+        padding: 1rem;
+        font-size: 1.1rem;
     }
 }
 </style>
