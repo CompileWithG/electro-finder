@@ -1,15 +1,20 @@
 <template>
-  <div>
-    <input 
-      type="text" 
-      v-model="searchQuery" 
-      placeholder="Search products..."
-      class="search-bar"
-      @keyup.enter="performSearch"
-    >
-    <button @click="performSearch" class="search-button">Search</button>
+  <div class="product-container">
+    <NavBar/>
+    <div class="search-container">
+      <input 
+        type="text" 
+        v-model="searchQuery" 
+        placeholder="Search products..."
+        class="search-input"
+        @keyup.enter="performSearch"
+      >
+      <button @click="performSearch" class="search-button">
+        <span class="search-icon">🔍</span>
+      </button>
+    </div>
 
-    <div v-if="loading" class="loading">Loading products...</div>
+    <div v-if="loading" class="loading-text">Loading products...</div>
 
     <div v-else-if="hasSearched && filteredProducts.length === 0" class="no-results">
       No products found for "{{ searchQuery }}". Try a different search term.
@@ -23,7 +28,7 @@
       >
         <img :src="product.image" :alt="product.name" class="product-image">
         <div class="product-details">
-          <h3>{{ product.name }}</h3>
+          <h3 class="product-title">{{ product.name }}</h3>
           <div class="price-section">
             <span class="discount-price">{{ product.discount_price }}</span>
             <span class="actual-price">{{ product.actual_price }}</span>
@@ -32,8 +37,10 @@
             <span class="rating-stars">{{ product.ratings }} ★</span>
             <span class="rating-count">({{ product.no_of_ratings }} ratings)</span>
           </div>
-          <a :href="product.link" target="_blank" class="buy-button">Buy Now</a>
-          <button @click="addToCart(product)" class="cart-button">Add to Cart</button>
+          <div class="button-container">
+            <a :href="product.link" target="_blank" class="buy-button">Buy Now</a>
+            <button @click="addToCart(product)" class="cart-button">Add to Cart</button>
+          </div>
         </div>
       </div>
     </div>
@@ -46,6 +53,7 @@
 
 <script>
 import Papa from 'papaparse'
+import NavBar from '~/components/NavBar.vue'
 
 export default {
   data() {
@@ -117,113 +125,193 @@ export default {
 </script>
 
 <style scoped>
-.search-bar {
-  width: calc(100% - 110px);
-  padding: 15px;
-  margin: 20px 0;
-  font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 4px 0 0 4px;
+.product-container {
+  min-height: 100vh;
+  background: linear-gradient(45deg, #000000, #1a042b, #0f1a40, #02010a);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+  padding: 40px 20px;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+  padding: 0 20px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.search-input {
+  width: 80%;
+  padding: 15px 25px;
+  font-size: 1.2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 30px 0 0 30px;
+  color: #ffffff;
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .search-button {
-  width: 100px;
-  padding: 15px;
-  margin: 20px 0;
-  font-size: 16px;
-  background-color: #007185;
-  color: white;
+  padding: 15px 25px;
+  background: #2563eb;
   border: none;
-  border-radius: 0 4px 4px 0;
+  border-radius: 0 30px 30px 0;
+  color: white;
   cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.2rem;
+}
+
+.search-button:hover {
+  background: #3b82f6;
+}
+
+.search-icon {
+  display: inline-block;
 }
 
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-  padding: 20px;
+  gap: 2rem;
+  padding: 2rem 5%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .product-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
   overflow: hidden;
-  transition: transform 0.2s;
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .product-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .product-image {
   width: 100%;
-  height: 200px;
+  height: 220px;
   object-fit: contain;
-  padding: 10px;
-  background: #f5f5f5;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .product-details {
-  padding: 15px;
+  padding: 20px;
+  color: #ffffff;
+}
+
+.product-title {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #ffffff;
+  height: 2.8em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .price-section {
-  margin: 10px 0;
+  margin: 15px 0;
 }
 
 .discount-price {
-  color: #B12704;
-  font-size: 1.2em;
+  color: #38bdf8;
+  font-size: 1.4em;
   font-weight: bold;
   margin-right: 10px;
 }
 
 .actual-price {
-  color: #565959;
+  color: rgba(255, 255, 255, 0.6);
   text-decoration: line-through;
 }
 
 .ratings {
   margin: 10px 0;
-  color: #007185;
+  color: #f59e0b;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
 }
 
 .buy-button, .cart-button {
-  display: inline-block;
-  width: 100%;
-  padding: 10px;
-  margin: 5px 0;
+  padding: 12px;
   text-align: center;
-  border-radius: 4px;
+  border-radius: 30px;
   cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+  text-decoration: none;
+  font-size: 1rem;
 }
 
 .buy-button {
-  background-color: #FFA41C;
-  color: black;
-  border: 1px solid #FF8F00;
-}
-
-.cart-button {
-  background-color: #007185;
+  background-color: #2563eb;
   color: white;
   border: none;
 }
 
-.loading {
+.buy-button:hover {
+  background-color: #1d4ed8;
+  transform: scale(1.05);
+}
+
+.cart-button {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.cart-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.loading-text {
   text-align: center;
-  padding: 20px;
-  font-size: 1.2em;
+  font-size: 1.5rem;
+  color: #ffffff;
+  margin: 4rem 0;
 }
 
 .initial-state, .no-results {
   text-align: center;
   padding: 40px;
-  font-size: 1.2em;
-  color: #565959;
-  background: #f9f9f9;
-  border-radius: 8px;
-  margin-top: 20px;
+  font-size: 1.2rem;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  margin: 4rem auto;
+  max-width: 700px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.no-results {
+  color: #f87171;
 }
 </style>
