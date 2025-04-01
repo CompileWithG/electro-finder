@@ -1,216 +1,229 @@
 <template>
-    <div class="product-container">
-        <NavBar />
-        
-        <div class="product-page">
-            <div class="search-container">
-                <input
-                    type="text"
-                    v-model="searchQuery"
-                    placeholder="Search products..."
-                    class="search-input"
-                    @keyup.enter="searchProducts"
-                />
-                <button class="search-button" @click="searchProducts">
-                    <img class="search" src="../assets/search.png">
-                </button>
-            </div>
+  <div>
+    <input 
+      type="text" 
+      v-model="searchQuery" 
+      placeholder="Search products..."
+      class="search-bar"
+      @keyup.enter="performSearch"
+    >
+    <button @click="performSearch" class="search-button">Search</button>
 
-            <div v-if="products.length" class="product-grid">
-                <ProductCard
-                    v-for="(product, index) in products"
-                    :key="index"
-                    :productData="product"
-                />
-            </div>
-            
-            <div v-else class="no-results">
-                {{ searchQuery ? 'No products found' : 'Search for products' }}
-            </div>
-        </div>
+    <div v-if="loading" class="loading">Loading products...</div>
+
+    <div v-else-if="hasSearched && filteredProducts.length === 0" class="no-results">
+      No products found for "{{ searchQuery }}". Try a different search term.
     </div>
+
+    <div v-else-if="hasSearched" class="product-grid">
+      <div 
+        v-for="product in filteredProducts" 
+        :key="product.link || index" 
+        class="product-card"
+      >
+        <img :src="product.image" :alt="product.name" class="product-image">
+        <div class="product-details">
+          <h3>{{ product.name }}</h3>
+          <div class="price-section">
+            <span class="discount-price">{{ product.discount_price }}</span>
+            <span class="actual-price">{{ product.actual_price }}</span>
+          </div>
+          <div class="ratings">
+            <span class="rating-stars">{{ product.ratings }} ★</span>
+            <span class="rating-count">({{ product.no_of_ratings }} ratings)</span>
+          </div>
+          <a :href="product.link" target="_blank" class="buy-button">Buy Now</a>
+          <button @click="addToCart(product)" class="cart-button">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div v-else class="initial-state">
+      Enter a product name, category, or subcategory to search for products.
+    </div>
+  </div>
 </template>
 
 <script>
-import axios from 'axios';
-import ProductCard from '~/components/ProductCard.vue';
-import NavBar from '~/components/NavBar.vue';
+import Papa from 'papaparse'
 
 export default {
-    components: {
-        ProductCard,
-        NavBar
-    },
-    data() {
-        return {
-            searchQuery: '',
-            products: []
-        };
-    },
-    methods: {
-        async searchProducts() {
-            try {
-                if (!this.searchQuery.trim()) {
-                    this.products = [];
-                    return;
-                }
-                this.searchQuery = this.searchQuery.replaceAll(" ", "%20");
-                const response = await axios.get(
-                    `http://localhost:5000/${encodeURIComponent(this.searchQuery)}`
-                );
-                
-                if (response.data.status === 'success') {
-                    this.products = response.data.products;
-                } else {
-                    this.products = [];
-                }
-            } catch (error) {
-                console.error('Error fetching products:', error);
-                this.products = [];
-            }
-        }
+  data() {
+    return {
+      searchQuery: '',
+      products: [],
+      loading: true,
+      hasSearched: false
     }
-};
+  },
+  computed: {
+    filteredProducts() {
+      const query = this.searchQuery.toLowerCase().trim()
+      if (!query) return []
+      
+      return this.products.filter(product => {
+        // Safe property access with null checks
+        const name = product.name ? product.name.toLowerCase() : '';
+        const mainCategory = product.main_category ? product.main_category.toLowerCase() : '';
+        const subCategory = product.sub_category ? product.sub_category.toLowerCase() : '';
+        
+        return name.includes(query) || 
+               mainCategory.includes(query) || 
+               subCategory.includes(query);
+      });
+    }
+  },
+  async mounted() {
+    try {
+      const response = await fetch('/products.csv') // Put your CSV in public folder
+      const csvData = await response.text()
+      
+      Papa.parse(csvData, {
+        header: true,
+        complete: (results) => {
+          // Filter out invalid entries
+          this.products = results.data.filter(product => 
+            product && typeof product === 'object' && product.name
+          );
+          
+          console.log('Loaded products:', this.products.length);
+          this.loading = false;
+        },
+        error: (error) => {
+          console.error('Error parsing CSV:', error)
+          this.loading = false
+        }
+      })
+    } catch (error) {
+      console.error('Error loading CSV:', error)
+      this.loading = false
+    }
+  },
+  methods: {
+    performSearch() {
+      if (this.searchQuery.trim()) {
+        this.hasSearched = true;
+        console.log('Searching for:', this.searchQuery);
+        console.log('Found products:', this.filteredProducts.length);
+      }
+    },
+    addToCart(product) {
+      // Implement your cart logic here
+      console.log('Added to cart:', product)
+      alert(`Added ${product.name} to cart!`)
+    }
+  }
+}
 </script>
 
 <style scoped>
-.search {
-    height: 20px;
-    width: 20px;
-}
-
-.product-container {
-    min-height: 100vh;
-    background: linear-gradient(45deg, #000000, #1a042b, #0f1a40, #02010a);
-    background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
-    padding-top: 100px;
-}
-
-.product-page {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.search-container {
-    display: flex;
-    justify-content: center;
-    margin: 2rem 0;
-    padding: 0 20px;
-}
-
-.search-input {
-    width: 60%;
-    max-width: 600px;
-    padding: 15px 25px;
-    font-size: 1.2rem;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 30px;
-    color: #ffffff;
-    font-family: 'Poppins', sans-serif;
-    margin-right: 10px;
-}
-
-.search-input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+.search-bar {
+  width: calc(100% - 110px);
+  padding: 15px;
+  margin: 20px 0;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px 0 0 4px;
 }
 
 .search-button {
-    padding: 15px 25px;
-    background: #2563eb;
-    border: none;
-    border-radius: 30px;
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-left: 10px;
-}
-
-.search-button:hover {
-    background: #3b82f6;
-    transform: scale(1.05);
+  width: 100px;
+  padding: 15px;
+  margin: 20px 0;
+  font-size: 16px;
+  background-color: #007185;
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
 }
 
 .product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    padding: 2rem 5%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
 }
 
-.no-results {
-    text-align: center;
-    padding: 40px;
-    color: #ffffff;
-    font-size: 18px;
+.product-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s;
 }
 
-@keyframes gradientShift {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
+.product-card:hover {
+  transform: translateY(-5px);
 }
 
-/* NavBar styles (assuming they're not already global) */
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 20px 0;
-    z-index: 1000;
+.product-image {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+  padding: 10px;
+  background: #f5f5f5;
 }
 
-.navbar-links {
-    list-style-type: none;
-    display: flex;
-    justify-content: center;
-    margin: 0;
+.product-details {
+  padding: 15px;
 }
 
-.navbar-links li {
-    margin: 0 20px;
+.price-section {
+  margin: 10px 0;
 }
 
-.navbar-links a {
-    text-decoration: none;
-    color: #ffffff;
-    font-size: 2rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: color 0.3s ease;
-    font-family: "Poppins", serif;
+.discount-price {
+  color: #B12704;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-right: 10px;
 }
 
-.navbar-links a:hover {
-    color: #f39c12;
+.actual-price {
+  color: #565959;
+  text-decoration: line-through;
 }
 
-.nav-circle-image {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+.ratings {
+  margin: 10px 0;
+  color: #007185;
 }
 
-.nav-circle-image.left {
-    left: 20px;
-    width: 65px;
-    height: 65px;
+.buy-button, .cart-button {
+  display: inline-block;
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  text-align: center;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-.nav-circle-image.right {
-    right: 20px;
+.buy-button {
+  background-color: #FFA41C;
+  color: black;
+  border: 1px solid #FF8F00;
+}
+
+.cart-button {
+  background-color: #007185;
+  color: white;
+  border: none;
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.2em;
+}
+
+.initial-state, .no-results {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2em;
+  color: #565959;
+  background: #f9f9f9;
+  border-radius: 8px;
+  margin-top: 20px;
 }
 </style>
