@@ -11,8 +11,8 @@
                 <div v-else class="spinner"></div>
             </button>
             <div v-if="response" class="response-area">
-                <h2 class="response-title">Response:</h2>
-                <p class="response-text">{{ response }}</p>
+                <h2 class="response-title"></h2>
+                <pre class="response-text">{{ response }}</pre>
             </div>
         </div>
     </div>
@@ -21,38 +21,52 @@
 <script>
 import { ref } from 'vue';
 import NavBar from '../components/NavBar';
-import OpenAI from 'openai';
-
-const openai = new OpenAI({
-    baseURL: 'https://api.deepseek.com/v1',
-    apiKey: 'sk-7a63086967a041c4b23942e11a51c560', dangerouslyAllowBrowser: true // Replace with your actual API key
-});
 
 export default {
     setup() {
         const userInput = ref('');
         const response = ref('');
         const isLoading = ref(false);
+        const API_ENDPOINT = 'http://localhost:11434/api/generate';
+
+        const cleanResponse = (text) => {
+            return text
+                .replace(/<think>[\s\S]*?<\/think>/g, '') // Remove <think> tags and content
+                .replace(/#+/g, '') // Remove multiple # symbols (headers)
+                .replace(/\*\*/g, '') // Remove ** for bold formatting
+                .trim(); // Remove unnecessary spaces
+        };
 
         const handleSubmit = async () => {
-            if (!userInput.value) return;
+            if (!userInput.value.trim()) return;
 
             isLoading.value = true;
             response.value = '';
 
             try {
-                const completion = await openai.chat.completions.create({
-                    messages: [{ role: "user", content: userInput.value }],
-                    model: "deepseek-chat",
+                const res = await fetch(API_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        model: "deepseek-r1:1.5b", 
+                        prompt: userInput.value,
+                        stream: false
+                    })
                 });
 
-                response.value = completion.choices[0].message.content;
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+
+                const data = await res.json();
+                response.value = cleanResponse(data.response); // Clean up response before displaying
             } catch (error) {
-                console.error("Error fetching response from OpenAI:", error);
-                response.value = "An error occurred while fetching the response.";
+                console.error("Error fetching response:", error);
+                response.value = `Error: ${error.message}\n\nMake sure:\n1. Ollama is running\n2. deepseek-r1:1.5b model is installed\n3. Server is accessible at ${API_ENDPOINT}`;
             } finally {
                 isLoading.value = false;
-                userInput.value = '';
             }
         };
 
@@ -62,23 +76,19 @@ export default {
             isLoading,
             handleSubmit
         };
+    },
+    components: {
+        NavBar
     }
 }
 </script>
 
+
 <style scoped>
 @keyframes gradientShift {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .ai-container {
@@ -157,6 +167,8 @@ export default {
 .response-text {
     font-size: 1.1rem;
     color: #4a5568;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 .spinner {
@@ -166,15 +178,11 @@ export default {
     width: 24px;
     height: 24px;
     animation: spin 1s linear infinite;
+    margin: 0 auto;
 }
 
 @keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 </style>

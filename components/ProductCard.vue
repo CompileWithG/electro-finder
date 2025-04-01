@@ -1,88 +1,117 @@
 <template>
-    <!-- Template remains the same -->
     <div class="product-card">
-        <h3>{{ product.title }}</h3>
-        <div class="product-details">
-            <div class="amazon-details">
-                <h4>Amazon</h4>
-                <p>Price: {{ product.amazon.price }}</p>
-                <a :href="product.amazon.link" target="_blank">View on Amazon</a>
-            </div>
-            <div class="flipkart-details">
-                <h4>Flipkart</h4>
-                <p>Price: {{ product.flipkart.price }}</p>
-                <a :href="product.flipkart.link" target="_blank">View on Flipkart</a>
-            </div>
+      <img :src="productData[1]" :alt="productData[2]" class="product-image" />
+      <div class="product-content">
+        <h3 class="product-title">{{ productData[2] }}</h3>
+        <p class="product-price">{{ productData[4] }}</p>
+        
+        <div class="product-features">
+          <h4>Features:</h4>
+          <ul>
+            <li v-for="(feature, index) in productData[3]" :key="index">
+              {{ feature }}
+            </li>
+          </ul>
         </div>
+        
+        <a :href="productData[0]" target="_blank" class="product-link">
+          View on Website
+        </a>
+      </div>
     </div>
-</template>
-
-<script>
-// Script remains the same
-export default {
+  </template>
+  
+  <script>
+  export default {
     props: {
-        product: {
-            type: Object,
-            required: true
-        }
+      productData: {
+        type: Array,
+        required: true
+      }
     }
-}
-</script>
-
-<style scoped>
-.product-card {
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-        url('@/assets/product-bg.jpg');
-    /* Add your image path here */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+  }
+  </script>
+  
+  <style scoped>
+  .product-card {
+    background: white;
     border-radius: 10px;
-    padding: 20px;
-    margin: 10px;
-    color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    position: relative;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     overflow: hidden;
-    transition: transform 0.3s ease;
-}
-
-.product-card:hover {
+    transition: transform 0.2s;
+  }
+  
+  .product-card:hover {
     transform: translateY(-5px);
-}
-
-/* Rest of the styles remain the same */
-.product-details {
-    display: flex;
-    justify-content: space-between;
-}
-
-.amazon-details,
-.flipkart-details {
-    width: 48%;
-}
-
-h3 {
+  }
+  
+  .product-image {
+    width: 100%;
+    height: 250px;
+    object-fit: contain;
+    background: #f5f5f5;
+    padding: 15px;
+  }
+  
+  .product-content {
+    padding: 15px;
+  }
+  
+  .product-title {
+    font-size: 1.1rem;
     margin-bottom: 10px;
-    position: relative;
-    z-index: 1;
-}
-
-h4 {
-    margin: 10px 0;
-    position: relative;
-    z-index: 1;
-}
-
-a {
-    color: #60a5fa;
+    color: #333;
+  }
+  
+  .product-price {
+    font-size: 1.2rem;
+    color: #42b983;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .product-features {
+    margin-bottom: 15px;
+  }
+  
+  .product-features h4 {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 8px;
+  }
+  
+  .product-features ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+  
+  .product-features li {
+    font-size: 0.9rem;
+    color: #444;
+    padding: 4px 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .product-features li::before {
+    content: "•";
+    color: #42b983;
+    margin-right: 8px;
+  }
+  
+  .product-link {
+    display: block;
+    text-align: center;
+    background-color: #42b983;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
     text-decoration: none;
-    position: relative;
-    z-index: 1;
-}
-
-a:hover {
-    color: #3b82f6;
-    text-decoration: underline;
-}
-</style>
+    transition: background-color 0.3s;
+  }
+  
+  .product-link:hover {
+    background-color: #33a06f;
+  }
+  </style>

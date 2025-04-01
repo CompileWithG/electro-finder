@@ -17,7 +17,6 @@
             <li><a href="/">Home</a></li>
             <li><a href="Product">Products</a></li>
             <li><a href="About">About</a></li>
-            <li><a href="contact">Contact</a></li>
             <li><a href="ai">AI Chat Bot</a></li>
         </ul>
         <a href="https://www.amazon.in" target="_blank">
